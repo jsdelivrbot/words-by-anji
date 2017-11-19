@@ -1,0 +1,15 @@
+{
+  "presets": [
+    "es2017",
+    "react",
+    "stage-3"
+  ],
+  "env": {
+    "production": {
+      "plugins": [
+        "transform-react-constant-elements",
+        "transform-react-inline-elements"
+      ]
+    }
+  }
+}
