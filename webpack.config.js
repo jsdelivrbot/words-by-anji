@@ -3,7 +3,6 @@
 const webpack = require('webpack');
 const path = require('path');
 const fs = require('fs');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const PORT = 3000;
 
@@ -31,16 +30,9 @@ module.exports = (env = { NODE_ENV: 'development' }) => ({
     new webpack.DefinePlugin({
       'process.env': { NODE_ENV: JSON.stringify(env.NODE_ENV) },
     }),
-    new ExtractTextPlugin({ filename: 'styles.css', allChunks: true }),
   ].concat(
     env.NODE_ENV === 'production'
-      ? [
-        new webpack.LoaderOptionsPlugin({ minimize: true, debug: false }),
-        new webpack.optimize.UglifyJsPlugin({
-          compress: { warnings: false },
-          sourceMap: true,
-        }),
-      ]
+      ? []
       : [
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NamedModulesPlugin(),
@@ -49,14 +41,6 @@ module.exports = (env = { NODE_ENV: 'development' }) => ({
   ),
   module: {
     rules: [
-      {
-        test: /\.scss$/,
-        loader: ExtractTextPlugin.extract({
-          publicPath: '/client/dist',
-          fallback: 'style-loader',
-          use: [ 'css-loader'],
-        }),
-      },
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,

@@ -6,8 +6,9 @@ const fs = require('fs');
 
 import type {Word} from './DataTypes.js';
 
-type WithID<T> = {
+export type WithID<T> = {
   id: string,
+  ts: number,
   data: T,
 };
 
@@ -34,7 +35,12 @@ class DB<T: Object> {
   }) {
     const saved = {...data};
     const id = `${this.collection.length}`;
-    this.collection.push({id, data: saved});
+    const entry = {
+      id,
+      ts: Date.now(),
+      data: saved,
+    }
+    this.collection.push(entry);
     fs.writeFile(
       this.path,
       JSON.stringify(this.collection),
@@ -44,7 +50,7 @@ class DB<T: Object> {
           fail(err);
           return;
         }
-        done({id: `${id}`, data: saved});
+        done(entry);
       },
     );
   }
@@ -71,22 +77,24 @@ class DB<T: Object> {
           fail(err);
           return;
         }
-        done({id: `${id}`, data: saved});
+        done(withID);
       },
     );
   }
 
   getAll(): Array<WithID<T>> {
-    return [...this.collection];
+    return [...this.collection].sort(
+      (a, b) => a.ts > b.ts ? -1 : a.ts < b.ts ? 1 : 0,
+    );
   }
 
-  geByID(id: string): ?T {
+  geByID(id: string): ?WithID<T> {
     const withID = this.collection.find(entry => entry.id === id);
     if (!withID) {
       return null;
     }
 
-    return {...withID.data};
+    return {...withID};
   }
 }
 

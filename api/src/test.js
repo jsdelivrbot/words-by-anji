@@ -61,4 +61,4 @@ Oxford.getMetadata({
   error: (e) => {
     console.log(e.message);
   },
-})
+});

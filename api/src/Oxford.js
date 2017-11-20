@@ -16,7 +16,7 @@ type OxfordData = {
     id: string,
   }>,
   pronunciations: Array<{
-    audio: string,
+    audioFile: string,
     dialects: Array<string>,
     phoneticNotation: string,
     phoneticSpelling: string,
@@ -28,7 +28,7 @@ function getWordDefinition(data: OxfordData): WordDefinition {
     definition: data.senses[0].definitions[0],
     example: data.senses[0].examples[0].text,
     spelling: data.pronunciations[0].phoneticSpelling,
-    audio: data.pronunciations[0].audio,
+    audio: data.pronunciations[0].audioFile,
   }
 }
 

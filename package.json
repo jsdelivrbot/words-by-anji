@@ -8,14 +8,14 @@
     "url": "git://github.com/andrekiu/words-by-anji.git"
   },
   "scripts": {
-    "start": "npm run api-build; node ./api/dist/server.js &  webpack-dev-server",
+    "start": "npm run api-build; node ./api/dist/server.js & webpack-dev-server",
     "test": "jest",
     "flow": "flow",
     "lint:js": "eslint .",
     "lint:css": "stylelint './src/**/*.js'",
     "lint": "yarn run lint:js && yarn run lint:css",
     "api-build": "babel --plugins transform-object-rest-spread api/src/ --out-dir api/dist/ --no-babelrc --presets=flow",
-    "build": "npm run api-build & webpack -p --env.NODE_ENV production",
+    "build": "npm run api-build & webpack --env.NODE_ENV production",
     "prebuild": "yarn run clean",
     "clean": "rm -r -f server/dist client/dist"
   },
