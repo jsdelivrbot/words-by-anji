@@ -43,7 +43,6 @@ dist/
 
 # Typescript v1 declaration files
 typings/
-static/
 
 # Optional npm cache directory
 .npm
