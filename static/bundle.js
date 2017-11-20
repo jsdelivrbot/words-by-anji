@@ -97,17 +97,15 @@ module.exports = __webpack_require__(2);
 
 const WordsAPI = __webpack_require__(0);
 const Entry = __webpack_require__(4);
-
-__webpack_require__(0).getWords({
-  done: words => {
-    console.log(words);
-    words.forEach((word, idx) => entries.append(Entry.render({
-      index: words.length - idx,
-      entry: word
-    })));
-  },
-  error: err => console.log(err.message)
-});
+const words = [
+  {"id":"0","ts":1511131528532,"data":{"word":"digress","context":"excuse the digression, but I have to share this lol","definition":{"definition":"leave the main subject temporarily in speech or writing","example":"I have digressed a little from my original plan","spelling":"dʌɪˈɡrɛs","audio":"http://audio.oxforddictionaries.com/en/mp3/ace_gb_1.mp3"}}},
+];
+  
+console.log(words);
+words.forEach((word, idx) => entries.append(Entry.render({
+  index: words.length - idx,
+  entry: word
+})));
 
 /***/ }),
 /* 3 */
