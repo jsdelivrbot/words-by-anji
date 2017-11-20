@@ -98,7 +98,7 @@ module.exports = __webpack_require__(2);
 const WordsAPI = __webpack_require__(0);
 const Entry = __webpack_require__(4);
 const words = [
-  {"id":"0","ts":1511131528532,"data":{"word":"digress","context":"excuse the digression, but I have to share this lol","definition":{"definition":"leave the main subject temporarily in speech or writing","example":"I have digressed a little from my original plan","spelling":"dʌɪˈɡrɛs","audio":"http://audio.oxforddictionaries.com/en/mp3/ace_gb_1.mp3"}}},
+  {"id":"0","ts":1511131528532,"data":{"word":"digress","context":"excuse the digression, but I have to share this lol","definition":{"definition":"leave the main subject temporarily in speech or writing","example":"I have digressed a little from my original plan","spelling":"dʌɪˈɡrɛs","audio":"http://audio.oxforddictionaries.com/en/mp3/digress_gb_1.mp3"}}},
 ];
   
 console.log(words);
