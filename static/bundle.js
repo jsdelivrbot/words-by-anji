@@ -113,7 +113,7 @@ __webpack_require__(0).getWords({
 /* 3 */
 /***/ (function(module, exports) {
 
-module.exports = {"api_url":"http://localhost:5000"}
+module.exports = {"api_url":"http://104.236.203.48:5000"}
 
 /***/ }),
 /* 4 */
