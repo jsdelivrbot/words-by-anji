@@ -8,21 +8,17 @@
     "url": "git://github.com/andrekiu/words-by-anji.git"
   },
   "scripts": {
-    "start": "npm run api-build; node ./api/dist/server.js & webpack-dev-server",
-    "test": "jest",
-    "flow": "flow",
-    "lint:js": "eslint .",
-    "lint:css": "stylelint './src/**/*.js'",
-    "lint": "yarn run lint:js && yarn run lint:css",
-    "api-build": "babel --plugins transform-object-rest-spread api/src/ --out-dir api/dist/ --no-babelrc --presets=flow",
-    "build": "npm run api-build & webpack --env.NODE_ENV production",
+    "start": "yarn run api-build; yarn run client-build; node ./www/dist/server.js",
+    "api-build": "babel --plugins transform-object-rest-spread www/src/ --out-dir www/dist/ --no-babelrc --presets=flow",
+    "client-build": "webpack --env.NODE_ENV production --display-error-details",
     "prebuild": "yarn run clean",
-    "clean": "rm -r -f server/dist client/dist"
+    "clean": "rm -r -f www/client/dist www/dist"
   },
   "author": "Satyajit Sahoo <satyajit.happy@gmail.com> (https://github.com/satya164/)",
   "license": "MIT",
   "devDependencies": {
     "autoprefixer": "^6.7.2",
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.22.1",
     "babel-eslint": "^7.1.1",
     "babel-jest": "^18.0.0",
@@ -31,6 +27,7 @@
     "babel-plugin-transform-react-inline-elements": "^6.22.0",
     "babel-preset-es2017": "^6.22.0",
     "babel-preset-es2017-native-modules": "^0.0.2",
+    "babel-preset-flow": "^6.23.0",
     "babel-preset-react": "^6.22.0",
     "babel-preset-stage-3": "^6.22.0",
     "eslint": "^4.6",
@@ -42,7 +39,7 @@
     "eslint-plugin-react": "^7.0",
     "extract-text-webpack-plugin": "*",
     "file-loader": "^0.10.0",
-    "flow-bin": "^0.38.0",
+    "flow-bin": "^0.63.1",
     "jest-cli": "^18.1.0",
     "react-addons-test-utils": "^15.4.2",
     "react-hot-loader": "^1.3.1",

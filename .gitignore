@@ -1,4 +1,5 @@
 # Env
+env.json
 api-env.json
 client-env.json
 
@@ -8,6 +9,9 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+#DB
+db
 
 # Runtime data
 pids

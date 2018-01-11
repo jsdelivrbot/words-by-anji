@@ -10,65 +10,38 @@ const babelrc = JSON.parse(
   fs.readFileSync(path.join(__dirname, '.babelrc'), 'utf-8').toString()
 );
 
-const entry = [ './client/src/index.js' ];
+const entry = ['./www/client/src/index.js'];
 
-module.exports = (env = { NODE_ENV: 'development' }) => ({
+module.exports = (env = { NODE_ENV: 'production' }) => ({
   devtool: 'source-map',
-  entry: env.NODE_ENV === 'production'
-    ? entry
-    : [
-      `webpack-dev-server/client?http://localhost:${PORT}`,
-      'webpack/hot/only-dev-server',
-      ...entry,
-    ],
+  entry: entry,
   output: {
-    path: path.resolve(__dirname, 'static'),
-    publicPath: '/static/',
+    path: path.resolve(__dirname, 'www/client/dist'),
+    publicPath: 'www/client/dist/',
     filename: 'bundle.js',
   },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': { NODE_ENV: JSON.stringify(env.NODE_ENV) },
     }),
-  ].concat(
-    env.NODE_ENV === 'production'
-      ? []
-      : [
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NamedModulesPlugin(),
-        new webpack.NoEmitOnErrorsPlugin(),
-      ]
-  ),
+  ],
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: (
-          env.NODE_ENV !== 'production'
-            ? [ { loader: 'react-hot-loader' } ]
-            : []
-          ).concat([
+        use:
+          [
             {
               loader: 'babel-loader',
               options: babelrc,
             },
-          ]),
+          ],
       },
       {
         test: /\.(bmp|gif|jpg|jpeg|png|svg|webp|ttf|otf)$/,
         use: { loader: 'url-loader', options: { limit: 25000 } },
       },
     ],
-  },
-  devServer: {
-    contentBase: '.',
-    hot: true,
-    port: PORT,
-    proxy: env.NODE_ENV !== 'production'
-      ? {
-       '/api': 'http://localhost:5000'
-      }
-      : undefined
-  },
+  }
 });

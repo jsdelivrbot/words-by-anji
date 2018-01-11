@@ -8,7 +8,6 @@ module.system=haste
 
 experimental.strict_type_args=true
 munge_underscores=true
-unsafe.enable_getters_and_setters=true
 
 esproposal.class_static_fields=enable
 esproposal.class_instance_fields=enable
