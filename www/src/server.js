@@ -36,19 +36,25 @@ app.use(function(req, res, next) {
 
 
 app.get('/', (req, res) => {
-  res.send(`
-    <head>
-      <title> Words by Anji </title>
-      <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-      <h1 id="title"> Words by Anji </h1>
+  wordDB.getAll().then(
+    words =>
+      res.send(`
+        <head>
+          <title> Words by Anji </title>
+          <link rel="stylesheet" href="style.css">
+          <script id="preloaded" type="application/json">
+            ${JSON.stringify(words)}
+          </script>
+        </head>
+        <body>
+          <h1 id="title"> Words by Anji </h1>
 
-      <div id=entries>
-      </div >
-      <script src="bundle.js"> </script>
-    </body>
-  `)
+          <div id=entries>
+          </div >
+          <script src="bundle.js"> </script>
+        </body>
+      `)
+  );
 });
 
 handleStaticRoute('style.css', 'www/client/');
