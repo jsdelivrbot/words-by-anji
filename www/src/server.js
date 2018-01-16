@@ -40,15 +40,17 @@ app.get('/', (req, res) => {
     words =>
       res.send(`
         <head>
-          <title> Words by Anji </title>
-          <link rel="stylesheet" href="style.css">
+          <title>Words by Anji</title>
+          <link rel="icon" href="favicon.ico" type="image/x-icon" />
+          <link rel='shortcut icon' href='favicon.ico' type='image/x-icon'/>
+          <link rel="stylesheet" href="style.css" />
           <script id="preloaded" type="application/json">
             ${JSON.stringify(words)}
           </script>
         </head>
         <body>
           <h1 id="title">
-            <div class="words">Words</div> 
+            <div class="words">Words</div>
             <div class="by">by Anji</div>
           </h1>
 
@@ -60,6 +62,7 @@ app.get('/', (req, res) => {
   );
 });
 
+handleStaticRoute('favicon.ico', 'www/client/');
 handleStaticRoute('style.css', 'www/client/');
 handleStaticRoute('bundle.js', 'www/client/dist/');
 
