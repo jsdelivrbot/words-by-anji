@@ -41,8 +41,8 @@ app.get('/', (req, res) => {
       res.send(`
         <head>
           <title>Words by Anji</title>
-          <link rel="icon" href="favicon.ico" type="image/x-icon" />
-          <link rel='shortcut icon' href='favicon.ico' type='image/x-icon'/>
+          <link rel="icon" href="anjicon.ico" type="image/x-icon" />
+          <link rel='shortcut icon' href='anjicon.ico' type='image/x-icon'/>
           <link rel="stylesheet" href="style.css" />
           <script id="preloaded" type="application/json">
             ${JSON.stringify(words)}
@@ -62,7 +62,7 @@ app.get('/', (req, res) => {
   );
 });
 
-handleStaticRoute('favicon.ico', 'www/client/');
+handleStaticRoute('anjicon.ico', 'www/client/');
 handleStaticRoute('style.css', 'www/client/');
 handleStaticRoute('bundle.js', 'www/client/dist/');
 
