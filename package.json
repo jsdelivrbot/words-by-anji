@@ -8,10 +8,11 @@
     "url": "git://github.com/andrekiu/words-by-anji.git"
   },
   "scripts": {
-    "start": "yarn run api-build; yarn run client-build; node ./www/dist/server.js",
+    "start": "yarn run build; node ./www/dist/server.js",
     "api-build": "babel --plugins transform-object-rest-spread www/src/ --out-dir www/dist/ --no-babelrc --presets=flow",
     "client-build": "webpack --env.NODE_ENV production --display-error-details",
     "prebuild": "yarn run clean",
+    "build": "yarn run api-build; yarn run client-build",
     "clean": "rm -r -f www/client/dist www/dist"
   },
   "author": "Satyajit Sahoo <satyajit.happy@gmail.com> (https://github.com/satya164/)",
