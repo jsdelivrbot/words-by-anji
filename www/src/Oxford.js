@@ -24,11 +24,19 @@ type OxfordData = {
 };
 
 function getWordDefinition(data: OxfordData): WordDefinition {
+  const pronunciations = data.pronunciations || [{}];
+  const senses = data.senses || [{
+    definitions: [],
+    examples: [{}],
+  }];
+  const sense = senses[0];
+  const definition = sense.definitions[0];
+  const example = sense.examples[0].text;
   return {
-    definition: data.senses[0].definitions[0],
-    example: data.senses[0].examples[0].text,
-    spelling: data.pronunciations[0].phoneticSpelling,
-    audio: data.pronunciations[0].audioFile,
+    definition,
+    example,
+    spelling: pronunciations[0].phoneticSpelling,
+    audio: pronunciations[0].audioFile,
   }
 }
 

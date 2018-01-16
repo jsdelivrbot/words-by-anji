@@ -5,23 +5,32 @@ import type {WithID} from './../../src/DB.js';
 
 function render({index, entry}: {index: number, entry: WithID<Word>}) {
   const definition = entry.data;
+  const spelling = definition.spelling && definition.spelling != 'undefined'
+    ? definition.spelling
+    : '';
+  const audio = definition.audio && definition.audio != 'undefined'
+    ? `<source src="${definition.audio}" type="audio/mpeg" />`
+    : '<span> </span>';
+
+  const def = definition.definition && definition.definition != 'undefined'
+    ? `<div>Definition: ${definition.definition}</div>`
+    : '';
+  const ex = definition.example && definition.example != 'undefined'
+    ? `<div>Example: ${definition.example}</div>`
+    : '';
+
   const pattern = `
     <div class="card u-clearfix">
       <div class="card-body">
         <span id="spelling" class="card-author subtle">
-          ${definition.spelling}
+          ${spelling || ''}
         </span>
         <h2 id="word" class="card-title">${entry.data.word}</h2>
         <span class="card-description">
           ${entry.data.context}
         </span>
         <span class="card-description subtle">
-          <div>
-            Definition: ${definition.definition}
-          </div>
-          <div>
-            Example: ${definition.example}
-          </div>
+        ${def} ${ex}
         </span>
         </span>
       </div>
@@ -43,9 +52,7 @@ function render({index, entry}: {index: number, entry: WithID<Word>}) {
           </svg>
           </a>
         </div>
-        <audio class="word-audio">
-          <source src="${definition.audio}" type="audio/mpeg" />
-        </audio>
+        <audio class="word-audio">${audio}</audio>
       </div>
     </div>
     <div class="card-shadow"></div>
