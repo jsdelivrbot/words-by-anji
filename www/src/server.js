@@ -47,7 +47,10 @@ app.get('/', (req, res) => {
           </script>
         </head>
         <body>
-          <h1 id="title"> Words by Anji </h1>
+          <h1 id="title">
+            <div class="words">Words</div> 
+            <div class="by">by Anji</div>
+          </h1>
 
           <div id=entries>
           </div >

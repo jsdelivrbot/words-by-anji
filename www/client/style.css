@@ -11,23 +11,21 @@ html {
 }
 
 #title {
-  margin: 25px;
-  font-size: 60px;
+  margin: 0px;
+  font-size: 10em;
   font-weight: 400;
   text-transform: CAPITALIZE;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Great Vibes', cursive;
+  text-align: center;
 }
 
+#title .by {
+  font-size: .3em;
+}
 
 .icon-play, .icon-play\:regular {
   background: #57abf2;
-  display: inline-block;
-  border-radius: 4.0625em;
-  line-height: 4.0625em;
-  text-align: center;
-  width: 100px;
-  height: 100px;
-  padding: 37px;
+  padding: 4em;
 }
 
 .icon {
@@ -57,7 +55,6 @@ html {
 .card-container {
   margin: 25px auto 0;
   position: relative;
-  width: 692px;
 }
 
 .card {
@@ -66,12 +63,14 @@ html {
   position: relative;
   box-shadow: 0 0 5px rgba(75, 75, 75, .07);
   z-index: 1;
+  display: flex;
+  flex-direction: row;
 }
 
 .card-body {
   display: inline-block;
   float: left;
-  width: 410px;
+  width: 70%;
 }
 
 .card-number {
@@ -91,16 +90,16 @@ html {
 
 .card-author {
   display: block;
-  font-size: 12px;
-  letter-spacing: .5px;
+  font-size: 1.8em;
+  letter-spacing: 1.5px;
   margin: 15px 0 0;
+  font-family: sans-serif;
 }
 
 .card-title {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 60px;
+  font-size: 6em;
   font-weight: 300;
-  line-height: 60px;
   margin: 10px 0;
   text-transform: capitalize;
 }
@@ -108,8 +107,8 @@ html {
 .card-description {
   display: inline-block;
   font-weight: 300;
-  line-height: 22px;
   margin: 10px 0;
+  font-size: 1.7em;
 }
 
 .card-read {
@@ -139,9 +138,9 @@ html {
 }
 
 .card-media {
-  float: right;
-  padding-top: 75px;
-  padding-right: 50px;
+  width: 30%;
+  padding-top: 5.5em;
+  padding-left: 3em;
 }
 
 .card-shadow {
@@ -151,4 +150,30 @@ html {
   margin: -1px auto 0;
   width: 80%;
   z-index: -1;
+}
+
+.card-description.subtle div {
+  padding-top: 5px;
+}
+
+@media screen and (min-width: 1000px)  {
+  .card-container {
+    width: 700px;
+  }
+
+  .card-title {
+    font-size: 5em;
+  }
+
+  .card-media {
+    padding-left: 0em;
+  }
+
+  .card-description {
+    font-size: 1em;
+  }
+
+  .icon-play {
+    padding: 3em;
+  }
 }
