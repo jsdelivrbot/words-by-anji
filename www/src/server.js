@@ -13,18 +13,31 @@ const fs = require('fs');
 
 const wordDB = new DB();
 
+function isProdTest() {
+  return process.env.NODE_ENV === 'PROD_TEST';
+}
+
+function isProd() {
+  const isProd = process.env.NODE_ENV === 'PROD';
+  return isProd || isProdTest();
+}
+
 function getLink(file: string): string {
   if (file[0] == '/') {
     file = file.substr(1);
   }
-  const isProd = process.env.NODE_ENV === 'PROD';
-  return isProd ? `/words-by-anji/${file}` : `/${file}`;
+  return isProd() ? `/words-by-anji/${file}` : `/${file}`;
 }
 
 function decorateForProd(app) {
   function decorateMethod(method) {
+    if (!isProdTest()) {
+      return;
+    }
     const old = app[method].bind(app);
-    app[method] = (route, ...rest) => old(getLink(route), ...rest);
+    app[method] = (route, ...rest) => {
+      old(getLink(route), ...rest)
+    };
   }
 
   decorateMethod('get');
