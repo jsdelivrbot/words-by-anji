@@ -13,13 +13,9 @@ const fs = require('fs');
 
 const wordDB = new DB();
 
-function isProdTest() {
-  return process.env.NODE_ENV === 'PROD_TEST';
-}
-
 function isProd() {
   const isProd = process.env.NODE_ENV === 'PROD';
-  return isProd || isProdTest();
+  return isProd;
 }
 
 function getLink(file: string): string {
@@ -31,9 +27,6 @@ function getLink(file: string): string {
 
 function decorateForProd(app) {
   function decorateMethod(method) {
-    if (!isProdTest()) {
-      return;
-    }
     const old = app[method].bind(app);
     app[method] = (route, ...rest) => {
       old(getLink(route), ...rest)
