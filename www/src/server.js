@@ -11,12 +11,33 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const fs = require('fs');
 
-const app = express();
 const wordDB = new DB();
+
+function getLink(file: string): string {
+  if (file[0] == '/') {
+    file = file.substr(1);
+  }
+  const isProd = process.env.NODE_ENV === 'PROD';
+  return isProd ? `/words-by-anji/${file}` : `/${file}`;
+}
+
+function decorateForProd(app) {
+  function decorateMethod(method) {
+    const old = app[method].bind(app);
+    app[method] = (route, ...rest) => old(getLink(route), ...rest);
+  }
+
+  decorateMethod('get');
+  decorateMethod('post');
+  return app;
+}
+
+const app = decorateForProd(express());
 
 function handleStaticRoute(filename, path) {
   app.get('/' + filename, (req, res) => {
     fs.readFile(path + filename, (err, buffer) => {
+      res.contentType(filename)
       if (err) {
         res.send(err);
         return;
@@ -41,9 +62,9 @@ app.get('/', (req, res) => {
       res.send(`
         <head>
           <title>Words by Anji</title>
-          <link rel="icon" href="anjicon.ico" type="image/x-icon" />
-          <link rel='shortcut icon' href='anjicon.ico' type='image/x-icon'/>
-          <link rel="stylesheet" href="style.css" />
+          <link rel="icon" href="${getLink('anjicon.ico')}" type="image/x-icon" />
+          <link rel='shortcut icon' href='${getLink('anjicon.ico')}' type='image/x-icon'/>
+          <link rel="stylesheet" href="${getLink('style.css')}" />
           <script id="preloaded" type="application/json">
             ${JSON.stringify(words)}
           </script>
@@ -56,7 +77,7 @@ app.get('/', (req, res) => {
 
           <div id=entries>
           </div >
-          <script src="bundle.js"> </script>
+          <script src="${getLink('bundle.js')}"> </script>
         </body>
       `)
   );
