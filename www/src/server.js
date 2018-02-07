@@ -81,8 +81,8 @@ app.get('/', (req, res) => {
             <div class="by">by Anji</div>
           </h1>
 
-          <div id=entries>
-          </div >
+          <div id="input-entry"></div>
+          <div id="entries"></div>
           <script src="${getLink('bundle.js')}"> </script>
         </body>
       `)

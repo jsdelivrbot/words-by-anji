@@ -105,7 +105,6 @@ html {
 }
 
 .card-description {
-  display: inline-block;
   font-weight: 300;
   margin: 10px 0;
   font-size: 1.7em;

@@ -3,71 +3,123 @@
 import type {Word} from './../../src/DataTypes.js';
 import type {WithID} from './../../src/DB.js';
 
-function render({index, entry}: {index: number, entry: WithID<Word>}) {
-  const definition = entry.data;
-  const spelling = definition.spelling && definition.spelling != 'undefined'
-    ? definition.spelling
-    : '';
-  const audio = definition.audio && definition.audio != 'undefined'
-    ? `<source src="${definition.audio}" type="audio/mpeg" />`
-    : '<span> </span>';
+const {Action} = require('./EventCycle.js');
 
-  const def = definition.definition && definition.definition != 'undefined'
-    ? `<div>Definition: ${definition.definition}</div>`
-    : '';
-  const ex = definition.example && definition.example != 'undefined'
-    ? `<div>Example: ${definition.example}</div>`
-    : '';
+export type InputState = {|
+  state: 'collapsed',
+|} | {|
+  state: 'visible',
+  //word: string,
+  //context: string,
+  //partial: Word,
+|};
 
-  const pattern = `
-    <div class="card u-clearfix">
-      <div class="card-body">
-        <span id="spelling" class="card-author subtle">
-          ${spelling || ''}
-        </span>
-        <h2 id="word" class="card-title">${entry.data.word}</h2>
-        <span class="card-description">
-          ${entry.data.context}
-        </span>
-        <span class="card-description subtle">
-        ${def} ${ex}
-        </span>
-        </span>
-      </div>
-      <div class="card-media">
-        <div class="icon icon-play audio-control">
-          <svg xmlns="http://www.w3.org/2000/svg" height="50" width="50" viewBox="0 0 21 26" id="play" y="58">
-            <g transform="translate(-606 -232)" fill="#fff">
-              <g id="play-Player" transform="translate(125 60)">
-                <g id="play-Play" transform="translate(453 149)">
-                  <path
-                    d="m47.193 33.899l-7.721-5.346-6.666-4.615c-1.835-1.27-4.341
-                       0.043-4.341 2.275v9.96 9.96c0 2.232 2.506 3.545 4.341
-                       2.275l6.666-4.615 7.721-5.346c1.589-1.099 1.589-3.448
-                       0-4.548z"
-                  />
+function inputBox(placeholder: string) {
+  return `<input type="text" placehoder="${placeholder}"/>`;
+}
+
+function card(config: {
+  spelling: string,
+  word: string,
+  context: string,
+  definition: string,
+  example: string,
+  audio: string,
+}) {
+  return `
+    <div class="card-container">
+      <div class="card u-clearfix">
+        <div class="card-body">
+          <span id="spelling" class="card-author subtle">
+            ${config.spelling}
+          </span>
+          <h2 id="word" class="card-title">${config.word}</h2>
+          <span class="card-description">
+            ${config.context}
+          </span>
+          <span class="card-description subtle">
+            ${config.definition}
+            ${config.example}
+          </span>
+          </span>
+        </div>
+        <div class="card-media">
+          <div class="icon icon-play audio-control">
+            <svg xmlns="http://www.w3.org/2000/svg" height="50" width="50" viewBox="0 0 21 26" id="play" y="58">
+              <g transform="translate(-606 -232)" fill="#fff">
+                <g id="play-Player" transform="translate(125 60)">
+                  <g id="play-Play" transform="translate(453 149)">
+                    <path
+                      d="m47.193 33.899l-7.721-5.346-6.666-4.615c-1.835-1.27-4.341
+                         0.043-4.341 2.275v9.96 9.96c0 2.232 2.506 3.545 4.341
+                         2.275l6.666-4.615 7.721-5.346c1.589-1.099 1.589-3.448
+                         0-4.548z"
+                    />
+                  </g>
                 </g>
               </g>
-            </g>
-          </svg>
-          </a>
+            </svg>
+            </a>
+          </div>
+          ${config.audio}
         </div>
-        <audio class="word-audio">${audio}</audio>
       </div>
+      <div class="card-shadow"></div>
     </div>
-    <div class="card-shadow"></div>
   `;
+}
+
+function render({index, entry}: {index: number, entry: WithID<Word>}) {
   const div = document.createElement('div');
-  div.innerHTML = pattern;
-  div.className = "card-container";
+  const data = entry.data;
+  div.innerHTML = card({
+    spelling: data.spelling || '',
+    word: data.word,
+    context: data.context,
+    definition: data.definition
+      ? `<div>Definition: ${data.definition}</div>`
+      : '',
+    example: data.example
+      ? `<div>Example: ${data.example}</div>`
+      : '',
+    audio: data.audio
+      ? `<audio class="word-audio">
+          <source src="${data.audio}" type="audio/mpeg" />
+         </audio>`
+      : '',
+  });
   div.getElementsByClassName('audio-control')[0].onclick = () => {
     (div.getElementsByClassName('word-audio')[0]: any).play();
   };
   return div;
 }
 
+function renderInput(config: {
+  input: InputState,
+  dispatch: (action: Action) => void,
+}) {
+  const div = document.createElement('div');
+  div.innerHTML = config.input.state === 'collapsed'
+    ? card({
+      spelling: 'placeholder',
+      word: 'placeholder',
+      context: 'placeholder',
+      definition: 'placeholder',
+      example: 'placeholder',
+      audio: '',
+    })
+    : 'hello';
+
+  div.onclick = () => {
+    config.dispatch(new Action({type: config.input.state}));
+  };
+
+  return div;
+}
+
 const Entry = {
   render,
+  renderInput,
 }
 
 module.exports = Entry;

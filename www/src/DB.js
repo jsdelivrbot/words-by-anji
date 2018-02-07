@@ -8,11 +8,11 @@ const path = require('path');
 
 import type {Word} from './DataTypes.js';
 
-export type WithID<T> = {
+export type WithID<T> = {|
   id: string,
   ts: number,
   data: T,
-};
+|};
 
 const PATH: string = (env.DB_PATH: any);
 
@@ -34,6 +34,9 @@ function parse(buffer: Buffer): WithID<Word> {
     const separator = line.indexOf(':');
     const key = line.substring(0, separator).trim();
     const value = line.substring(separator + 1).trim();
+    if (value === 'undefined') {
+      return;
+    }
     raw[key] = value;
   });
 
