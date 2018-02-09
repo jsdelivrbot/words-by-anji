@@ -113,7 +113,7 @@ input[type=text] {
   font-size: 1em;
   font-family: 'Cormorant Garamond', serif;
   text-transform: capitalize;
-  width: 5.5em;
+  width: 7em;
 }
 
 .card-description {
@@ -125,8 +125,8 @@ input[type=text] {
 .card-description input {
   font-weight: 300;
   font-size: 1.7em;
-  width: 16.2em;
   padding: .3em;
+  width: 14.5em;
 }
 
 .card-controls {
@@ -203,11 +203,11 @@ button {
 
 @media screen and (min-width: 1000px)  {
   .card-title input {
-    width: 7em;
+    width: 5.5em;
   }
 
   .card-description input {
-    width: 14.5em;
+    width: 16.2em;
   }
 
   .card-container {
