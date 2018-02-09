@@ -202,6 +202,14 @@ button {
 }
 
 @media screen and (min-width: 1000px)  {
+  .card-title input {
+    width: 7em;
+  }
+
+  .card-description input {
+    width: 14.5em;
+  }
+
   .card-container {
     width: 700px;
   }
