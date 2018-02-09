@@ -2,12 +2,7 @@
 
 type Status = 'loaded' | 'loading' | 'error';
 
-function nullthrows<T>(data?: ?T): T {
-  if (data == null) {
-    throw new Error('this is null');
-  }
-  return (data: T);
-}
+const {nullthrows} = require('./Utils.js');
 
 class LoadObject<T> {
   data: ?T;

@@ -19,6 +19,11 @@ html {
   text-align: center;
 }
 
+input[type=text] {
+  border: 1px dotted #999;
+  border-radius: 0;
+}
+
 #title .by {
   font-size: .3em;
 }
@@ -104,10 +109,32 @@ html {
   text-transform: capitalize;
 }
 
+.card-title input {
+  font-size: 1em;
+  font-family: 'Cormorant Garamond', serif;
+  text-transform: capitalize;
+  width: 5.5em;
+}
+
 .card-description {
   font-weight: 300;
   margin: 10px 0;
   font-size: 1.7em;
+}
+
+.card-description input {
+  font-weight: 300;
+  font-size: 1.7em;
+  width: 16.2em;
+  padding: .3em;
+}
+
+.card-controls {
+  margin: 1em 0 0 0;
+}
+
+.card-controls input {
+  padding: 1em;
 }
 
 .card-read {
@@ -138,7 +165,7 @@ html {
 
 .card-media {
   width: 30%;
-  padding-top: 5.5em;
+  padding-top: 2.5em;
   padding-left: 3em;
 }
 
@@ -153,6 +180,25 @@ html {
 
 .card-description.subtle div {
   padding-top: 5px;
+}
+
+button {
+  padding      : 5px;
+  font         : 1em sans-serif;
+  background   : none;
+  cursor       : pointer;
+}
+
+.add-new-entry {
+  background: #57abf2;
+  color: white;
+  font-size: 2em;
+  text-align: center;
+  margin: 0em 6em;
+}
+
+.entry-floater {
+  height: .2em;
 }
 
 @media screen and (min-width: 1000px)  {

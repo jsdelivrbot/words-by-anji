@@ -24,8 +24,23 @@ function getWords({done, error}: Handler<Word>) {
   );
 }
 
+function postWord(data: {word: string, context: string}): Promise<WithID<Word>> {
+  return fetch(
+    `${clientEnv.api_url}/word`,
+    {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data),
+    }
+  ).then(res => res.json());
+}
+
 const WordsAPI = {
   getWords,
+  postWord,
 }
 
 module.exports = WordsAPI;

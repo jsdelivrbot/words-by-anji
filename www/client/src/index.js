@@ -2,14 +2,20 @@
 
 import type {Word} from './../../src/DataTypes.js';
 import type {WithID} from './../../src/DB.js';
-import type {InputState} from './Entry.js';
+import type {InputState} from './Input.js';
 
 const WordsAPI = require('./WordsAPI.js');
 const Entry = require('./Entry.js');
+const Input = require('./Input.js');
 const LoadObject = require('./LoadObject.js');
 const {EventCycle, Action} = require('./EventCycle.js');
 
 const preloadedWords = document.getElementById('preloaded');
+const {
+  ChangeInputStateAction,
+  SaveNewWordAction,
+  ReceiveNewWordAction,
+} = require('./Actions.js');
 
 type State = {
   input: InputState,
@@ -35,12 +41,12 @@ function renderWords(words) {
     },
     render: (prev, state) => {
       input.innerHTML = '';
-      input.append(Entry.renderInput({
+      input.append(Input({
         input: state.input,
         typeaheadCache: state.typeaheadCache,
         dispatch,
       }));
-      
+
       if (prev && prev.entries === state.entries) {
         return;
       }
@@ -58,21 +64,43 @@ function renderWords(words) {
 
   cycle.register((action, state) => {
     console.log(action, state);
-    if (action.type === 'collapsed') {
+    if (action instanceof ChangeInputStateAction) {
       return {
         ...state,
-        input: {
-          state: 'visible',
-        },
+        input: action.state === 'collapsed'
+          ? {state : 'collapsed'}
+          : {
+            state : 'visible',
+            word: null,
+            context: null,
+            password: null,
+          },
       };
-    } else {
+    }
+
+    if (action instanceof SaveNewWordAction) {
+      if (action.data.password !== 'spicy coconut') {
+        return state;
+      }
+
+      WordsAPI.postWord(action.data).then(
+        word => cycle.dispatch(new ReceiveNewWordAction(word))
+      );
+    }
+
+    if (action instanceof ReceiveNewWordAction) {
       return {
         ...state,
         input: {
           state: 'collapsed',
         },
+        entries: [
+          action.word,
+          ...state.entries,
+        ],
       };
     }
+    return state;
   });
 }
 

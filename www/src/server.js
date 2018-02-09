@@ -120,7 +120,7 @@ app.post('/word', (req, res) => {
         }
       )
     },
-    error: res.send,
+    error: (e) => res.send(e),
   });
 });
 

@@ -45,6 +45,7 @@ function getMetadata({word, done, error}: {
   done: (data: WordDefinition) => mixed,
   error: (error: Error) => mixed},
 ) {
+  word = word.toLowerCase();
 
   const options = {
     url: getURL(word),
@@ -57,6 +58,7 @@ function getMetadata({word, done, error}: {
   request(options, (err, response, body) => {
     if (err || !response) {
       const e = err || new Error('Empty response from ' + getURL(word));
+      console.log(e);
       console.log(e.message);
       return error(e);
     }

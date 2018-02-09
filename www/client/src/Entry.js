@@ -3,21 +3,6 @@
 import type {Word} from './../../src/DataTypes.js';
 import type {WithID} from './../../src/DB.js';
 
-const {Action} = require('./EventCycle.js');
-
-export type InputState = {|
-  state: 'collapsed',
-|} | {|
-  state: 'visible',
-  //word: string,
-  //context: string,
-  //partial: Word,
-|};
-
-function inputBox(placeholder: string) {
-  return `<input type="text" placehoder="${placeholder}"/>`;
-}
-
 function card(config: {
   spelling: string,
   word: string,
@@ -25,6 +10,7 @@ function card(config: {
   definition: string,
   example: string,
   audio: string,
+  controls: string,
 }) {
   return `
     <div class="card-container">
@@ -33,7 +19,9 @@ function card(config: {
           <span id="spelling" class="card-author subtle">
             ${config.spelling}
           </span>
-          <h2 id="word" class="card-title">${config.word}</h2>
+          <div class="card-title">
+            ${config.word}
+          </div>
           <span class="card-description">
             ${config.context}
           </span>
@@ -42,6 +30,7 @@ function card(config: {
             ${config.example}
           </span>
           </span>
+          ${config.controls}
         </div>
         <div class="card-media">
           <div class="icon icon-play audio-control">
@@ -87,6 +76,7 @@ function render({index, entry}: {index: number, entry: WithID<Word>}) {
           <source src="${data.audio}" type="audio/mpeg" />
          </audio>`
       : '',
+    controls: '',
   });
   div.getElementsByClassName('audio-control')[0].onclick = () => {
     (div.getElementsByClassName('word-audio')[0]: any).play();
@@ -94,32 +84,9 @@ function render({index, entry}: {index: number, entry: WithID<Word>}) {
   return div;
 }
 
-function renderInput(config: {
-  input: InputState,
-  dispatch: (action: Action) => void,
-}) {
-  const div = document.createElement('div');
-  div.innerHTML = config.input.state === 'collapsed'
-    ? card({
-      spelling: 'placeholder',
-      word: 'placeholder',
-      context: 'placeholder',
-      definition: 'placeholder',
-      example: 'placeholder',
-      audio: '',
-    })
-    : 'hello';
-
-  div.onclick = () => {
-    config.dispatch(new Action({type: config.input.state}));
-  };
-
-  return div;
-}
-
 const Entry = {
   render,
-  renderInput,
+  card,
 }
 
 module.exports = Entry;

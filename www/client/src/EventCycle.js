@@ -3,8 +3,8 @@
 class Action{
   type: string;
 
-  constructor(config: {type: string}) {
-    this.type = config.type;
+  constructor(type: string) {
+    this.type = type;
   }
 }
 
