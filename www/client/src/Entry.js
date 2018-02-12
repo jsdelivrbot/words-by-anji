@@ -4,6 +4,8 @@ import type {Word} from './../../src/DataTypes.js';
 import type {WithID} from './../../src/DB.js';
 
 function card(config: {
+  state: 'readonly' | 'edit' | 'loading' | 'success',
+  error: string,
   spelling: string,
   word: string,
   context: string,
@@ -31,6 +33,11 @@ function card(config: {
           </span>
           </span>
           ${config.controls}
+          ${config.error}
+          ${config.state === 'loading'
+            ? `<div class="card-error">Saving your kind words.</div>`
+            : ''
+          }
         </div>
         <div class="card-media">
           <div class="icon icon-play audio-control">
@@ -62,6 +69,8 @@ function render({index, entry}: {index: number, entry: WithID<Word>}) {
   const div = document.createElement('div');
   const data = entry.data;
   div.innerHTML = card({
+    state: 'readonly',
+    error: '',
     spelling: data.spelling || '',
     word: data.word,
     context: data.context,

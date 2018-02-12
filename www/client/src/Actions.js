@@ -19,11 +19,18 @@ class SaveNewWordAction extends Action {
   }
 }
 
+class BackupChangesAction extends SaveNewWordAction {
+}
+
+type ChangeInputState = 'collapsed' | 'visible' | 'loading' | 'invalid' | 'success';
+
 class ChangeInputStateAction extends Action {
-  state: 'collapsed' | 'visible';
-  constructor(state: 'collapsed' | 'visible') {
+  state: ChangeInputState;
+  error: ?string;
+  constructor(state: ChangeInputState, error?: string) {
     super('ChangeInputState');
     this.state = state;
+    this.error = error;
   }
 }
 
@@ -35,9 +42,29 @@ class ReceiveNewWordAction extends Action {
   }
 }
 
+class SearchSuccessAction extends Action {
+  word: Word;
+  constructor(word: Word) {
+    super('SearchSuccessAction');
+    this.word = word;
+  }
+}
+
+class SearchFailedAction extends Action {
+  error: string;
+  word: string;
+  constructor(word: string, error: string) {
+    super('SearchFailedAction');
+    this.word = word;
+    this.error = error;
+  }
+}
 
 module.exports = {
   ChangeInputStateAction,
   SaveNewWordAction,
   ReceiveNewWordAction,
+  BackupChangesAction,
+  SearchSuccessAction,
+  SearchFailedAction,
 };

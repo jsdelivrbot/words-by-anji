@@ -30,8 +30,12 @@ function getWordDefinition(data: OxfordData): WordDefinition {
     examples: [{}],
   }];
   const sense = senses[0];
-  const definition = sense.definitions[0];
-  const example = sense.examples[0].text;
+  const definition = sense.definitions && sense.definitions.length
+    ? sense.definitions[0]
+    : '';
+  const example = sense.examples && sense.examples.length
+    ? sense.examples[0].text
+    : '';
   return {
     definition,
     example,

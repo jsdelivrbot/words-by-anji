@@ -101,6 +101,23 @@ app.get('/words', (req, res) => {
   )
 });
 
+app.get('/search/:word', (req, res) => {
+  const word: string = req.params.word;
+  Oxford.getMetadata({
+    word,
+    done: (definition) => {
+      res.send({
+        word,
+        context: '',
+        ...definition,
+      });
+    },
+    error: (_) => res.send(
+      {error: true, message: 'This is not a word, \u{1F481}.'},
+    ),
+  })
+});
+
 app.post('/word', (req, res) => {
   const word: string = req.body.word;
   const context: string = req.body.context;
@@ -118,9 +135,17 @@ app.post('/word', (req, res) => {
           done: (withID) => res.send(withID),
           fail: (e) => res.send(e),
         }
-      )
+      );
     },
-    error: (e) => res.send(e),
+    error: (_) => {
+      wordDB.insert(
+        {word, context},
+        {
+          done: (withID) => res.send(withID),
+          fail: (e) => res.send(e),
+        }
+      );
+    },
   });
 });
 
