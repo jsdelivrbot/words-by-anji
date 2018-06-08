@@ -3,7 +3,7 @@
 'use strict';
 
 import type {Word} from './DataTypes.js';
-
+import type {WithID} from './DB.js';
 const DB = require('./DB.js');
 const Oxford = require('./Oxford.js');
 
@@ -18,11 +18,15 @@ function isProd() {
   return isProd;
 }
 
-function getLink(file: string): string {
+function getLink(file: string, withPrefix: boolean = false): string {
   if (file[0] == '/') {
     file = file.substr(1);
   }
-  return isProd() ? `/words-by-anji/${file}` : `/${file}`;
+  if (isProd()) {
+    const path = `/words-by-anji/${file}`;
+    return withPrefix ? 'https://andreq.me' + path : path;
+  }
+  return `/${file}`;
 }
 
 function decorateForProd(app) {
@@ -36,6 +40,29 @@ function decorateForProd(app) {
   decorateMethod('get');
   decorateMethod('post');
   return app;
+}
+
+function generateMeta(words: Array<WithID<Word>>): string {
+  const randomIndex = Math.floor(Math.random() * Math.floor(words.length));
+  const entry = words[randomIndex].data;
+  return `
+    <meta
+      property="og:image"
+      content="${getLink('piyomaru.png')}"
+    />
+    <meta
+      property="og:description"
+      content="Get literate, one word at a time. '${entry.context} - by Anji'"
+    />
+    <meta
+      property="og:url"
+      content="https://andreq.me/words-by-anji"
+    />
+    <meta
+      property="og:title"
+      content="Words by Anji"
+    />
+  `;
 }
 
 const app = decorateForProd(express());
@@ -67,10 +94,11 @@ app.get('/', (req, res) => {
     words =>
       res.send(`
         <head>
+          ${generateMeta(words)}
           <title>Words by Anji</title>
           <link rel="icon" href="${getLink('anjicon.ico')}" type="image/x-icon" />
           <link rel='shortcut icon' href='${getLink('anjicon.ico')}' type='image/x-icon'/>
-          <link rel="stylesheet" href="${getLink('style.css')}" />
+          <link rel='stylesheet' href="${getLink('style.css')}" />
           <script id="preloaded" type="application/json">
             ${JSON.stringify(words)}
           </script>
@@ -92,6 +120,7 @@ app.get('/', (req, res) => {
 handleStaticRoute('anjicon.ico', 'www/client/');
 handleStaticRoute('style.css', 'www/client/');
 handleStaticRoute('bundle.js', 'www/client/dist/');
+handleStaticRoute('piyomaru.png', 'static/imgs/');
 
 // respond with "hello world" when a GET request is made to the homepage
 app.get('/words', (req, res) => {

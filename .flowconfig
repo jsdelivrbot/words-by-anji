@@ -6,7 +6,6 @@ interfaces/
 [options]
 module.system=haste
 
-experimental.strict_type_args=true
 munge_underscores=true
 
 esproposal.class_static_fields=enable
