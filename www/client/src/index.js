@@ -125,15 +125,7 @@ function renderWords(words) {
       input: {
         state: 'collapsed',
       },
-      searchCache: {
-        'hello' : LoadObject.loaded({
-          word: 'hello', context: 'ahi', ...placeholder,
-        }),
-        'hell': LoadObject.loading({
-          word: 'hell', context: 'ah',
-        }),
-        'he': LoadObject.error(new Error('not a word')),
-      },
+      searchCache: {},
       entries: words,
     },
     render: (prev, state) => {
@@ -198,7 +190,7 @@ function renderWords(words) {
         searchCache,
       };
     }
-    
+
     if (action instanceof ReceiveNewWordAction) {
       return {
         ...state,
