@@ -43,7 +43,13 @@ function card(config: {
         </div>
         <div class="card-media">
           <div class="icon icon-play audio-control">
-            <svg xmlns="http://www.w3.org/2000/svg" height="50" width="50" viewBox="0 0 21 26" id="play" y="58">
+            <svg class="play-button"
+              xmlns="http://www.w3.org/2000/svg"
+              height="50"
+              width="50"
+              viewBox="0 0 21 26"
+              id="play"
+              y="58">
               <g transform="translate(-606 -232)" fill="#fff">
                 <g id="play-Player" transform="translate(125 60)">
                   <g id="play-Play" transform="translate(453 149)">

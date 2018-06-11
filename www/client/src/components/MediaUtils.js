@@ -1,8 +1,16 @@
 // @flow
 
 function bindAudioHandlers(div: HTMLDivElement) {
-  div.getElementsByClassName('audio-control')[0].onclick = () => {
+  const control = div.getElementsByClassName('audio-control')[0];
+  control.onclick = () => {
+    control.className += " icon-click";
     (div.getElementsByClassName('word-audio')[0]: any).play();
+    setTimeout(
+      () => {
+        control.className = control.className.replace(" icon-click", "");
+      },
+      1000,
+    );
   };
 }
 
