@@ -221,6 +221,10 @@ function Input(config: {
       config.dispatch(new ChangeInputStateAction('collapsed'));
       event.preventDefault();
     };
+
+    div.getElementsByClassName('audio-control')[0].onclick = () => {
+      (div.getElementsByClassName('word-audio')[0]: any).play();
+    };
   }
 
   return div;
