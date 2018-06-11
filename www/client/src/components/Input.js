@@ -1,18 +1,19 @@
 // @flow
 
-
-import type {Word} from './../../src/DataTypes.js';
-import type LoadObject from './LoadObject.js';
+import type {Word} from './../../../src/DataTypes.js';
+import type LoadObject from './../LoadObject.js';
 
 const {card} = require('./Entry.js');
-const {Action} = require('./EventCycle.js');
+const {Action} = require('./../EventCycle.js');
 
 const {
   ChangeInputStateAction,
   SaveNewWordAction,
   BackupChangesAction,
-} = require('./Actions.js');
-const {nullthrows} = require('./Utils.js');
+} = require('./../Actions.js');
+
+const {nullthrows} = require('./../Utils.js');
+const {bindAudioHandlers} = require('./MediaUtils.js');
 
 export type InputState = {|
   state: 'collapsed',
@@ -221,10 +222,7 @@ function Input(config: {
       config.dispatch(new ChangeInputStateAction('collapsed'));
       event.preventDefault();
     };
-
-    div.getElementsByClassName('audio-control')[0].onclick = () => {
-      (div.getElementsByClassName('word-audio')[0]: any).play();
-    };
+    bindAudioHandlers(div);
   }
 
   return div;

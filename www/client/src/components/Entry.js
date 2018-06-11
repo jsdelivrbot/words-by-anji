@@ -1,7 +1,9 @@
 // @flow
 
-import type {Word} from './../../src/DataTypes.js';
-import type {WithID} from './../../src/DB.js';
+import type {Word} from './../../../src/DataTypes.js';
+import type {WithID} from './../../../src/DB.js';
+
+const {bindAudioHandlers} = require('./MediaUtils.js');
 
 function card(config: {
   state: 'readonly' | 'edit' | 'loading' | 'success',
@@ -87,9 +89,7 @@ function render({index, entry}: {index: number, entry: WithID<Word>}) {
       : '',
     controls: '',
   });
-  div.getElementsByClassName('audio-control')[0].onclick = () => {
-    (div.getElementsByClassName('word-audio')[0]: any).play();
-  };
+  bindAudioHandlers(div);
   return div;
 }
 

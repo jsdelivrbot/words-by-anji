@@ -2,11 +2,11 @@
 
 import type {Word} from './../../src/DataTypes.js';
 import type {WithID} from './../../src/DB.js';
-import type {InputState} from './Input.js';
+import type {InputState} from './components/Input.js';
 
 const WordsAPI = require('./WordsAPI.js');
-const Entry = require('./Entry.js');
-const Input = require('./Input.js');
+const Entry = require('./components/Entry.js');
+const Input = require('./components/Input.js');
 const LoadObject = require('./LoadObject.js');
 const Wait = require('./Wait.js');
 const {EventCycle, Action} = require('./EventCycle.js');

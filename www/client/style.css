@@ -40,6 +40,32 @@ input[type=text] {
   cursor: pointer;
 }
 
+.icon::after {
+	background: rgba(111,148,182,0.1);
+}
+
+.cbutton--effect-nikola.cbutton--click::after {
+	animation: anim-effect-nikola 0.5s forwards;
+}
+
+@keyframes anim-effect-nikola {
+	0% {
+		opacity: 0;
+		-webkit-transform: scale3d(0.2, 0.2, 1);
+		transform: scale3d(0.2, 0.2, 1);
+	}
+	50% {
+		opacity: 1;
+		-webkit-transform: scale3d(1.2, 1.2, 1);
+		transform: scale3d(1.2, 1.2, 1);
+	}
+	100% {
+		opacity: 0;
+		-webkit-transform: scale3d(0.8, 0.8, 1);
+		transform: scale3d(0.8, 0.8, 1);
+	}
+}
+
 .u-clearfix:before,
 .u-clearfix:after {
   content: " ";
