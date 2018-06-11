@@ -37,6 +37,7 @@ input[type=text] {
   display: inline;
   display: inline-block;
   background-repeat: no-repeat;
+  cursor: pointer;
 }
 
 .u-clearfix:before,
