@@ -78,7 +78,7 @@ function generateMetadata(
   return `
     <meta
       property="og:image"
-      content="${getLink('piyomaru.png')}"
+      content="${getLink('piyomaru.png', true)}"
     />
     <meta
       property="og:description"

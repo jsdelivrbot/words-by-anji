@@ -67,11 +67,11 @@ function renderMain(req, res, hint: string = ""): void {
           <link rel="icon" href="${getLink('anjicon.ico')}" type="image/x-icon" />
           <link rel='shortcut icon' href='${getLink('anjicon.ico')}' type='image/x-icon'/>
           <link rel='stylesheet' href="${getLink('style.css')}" />
+        </head>
+        <body>
           <script id="preloaded" type="application/json">
             ${JSON.stringify(words)}
           </script>
-        </head>
-        <body>
           <h1 id="title">
             <div class="words">Words</div>
             <div class="by">by Anji</div>
