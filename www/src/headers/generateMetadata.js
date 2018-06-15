@@ -86,7 +86,9 @@ function generateMetadata(
     />
     <meta
       property="og:url"
-      content="https://andreq.me/words-by-anji"
+      content="https://andreq.me/words-by-anji${
+        hint ? `/lucky/${hint.trim()}` : ''
+      }"
     />
     <meta
       property="og:title"
