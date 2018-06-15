@@ -4,30 +4,17 @@
 
 import type {Word} from './DataTypes.js';
 import type {WithID} from './DB.js';
+
 const DB = require('./DB.js');
 const Oxford = require('./Oxford.js');
 
 const bodyParser = require('body-parser');
 const express = require('express');
 const fs = require('fs');
+const generateMetadata = require('./headers/generateMetadata.js');
+const getLink = require('./routing/getLink.js');
 
 const wordDB = new DB();
-
-function isProd() {
-  const isProd = process.env.NODE_ENV === 'PROD';
-  return isProd;
-}
-
-function getLink(file: string, withPrefix: boolean = false): string {
-  if (file[0] == '/') {
-    file = file.substr(1);
-  }
-  if (isProd()) {
-    const path = `/words-by-anji/${file}`;
-    return withPrefix ? 'https://andreq.me' + path : path;
-  }
-  return `/${file}`;
-}
 
 function decorateForProd(app) {
   function decorateMethod(method) {
@@ -40,29 +27,6 @@ function decorateForProd(app) {
   decorateMethod('get');
   decorateMethod('post');
   return app;
-}
-
-function generateMeta(words: Array<WithID<Word>>): string {
-  const randomIndex = Math.floor(Math.random() * Math.floor(words.length));
-  const entry = words[randomIndex].data;
-  return `
-    <meta
-      property="og:image"
-      content="${getLink('piyomaru.png')}"
-    />
-    <meta
-      property="og:description"
-      content="Get literate, one word at a time. '${entry.context} - by Anji'"
-    />
-    <meta
-      property="og:url"
-      content="https://andreq.me/words-by-anji"
-    />
-    <meta
-      property="og:title"
-      content="Words by Anji"
-    />
-  `;
 }
 
 const app = decorateForProd(express());
@@ -88,13 +52,17 @@ app.use(function(req, res, next) {
   next();
 });
 
+handleStaticRoute('anjicon.ico', 'www/client/');
+handleStaticRoute('style.css', 'www/client/');
+handleStaticRoute('bundle.js', 'www/client/dist/');
+handleStaticRoute('piyomaru.png', 'static/imgs/');
 
-app.get('/', (req, res) => {
+function renderMain(req, res, hint: string = ""): void {
   wordDB.getAll().then(
     words =>
       res.send(`
         <head>
-          ${generateMeta(words)}
+          ${generateMetadata(words, hint)}
           <title>Words by Anji</title>
           <link rel="icon" href="${getLink('anjicon.ico')}" type="image/x-icon" />
           <link rel='shortcut icon' href='${getLink('anjicon.ico')}' type='image/x-icon'/>
@@ -115,12 +83,14 @@ app.get('/', (req, res) => {
         </body>
       `)
   );
+}
+
+app.get('/lucky/:word', (req, res) => {
+  console.log(req.params.word);
+  renderMain(req, res, req.params.word.trim());
 });
 
-handleStaticRoute('anjicon.ico', 'www/client/');
-handleStaticRoute('style.css', 'www/client/');
-handleStaticRoute('bundle.js', 'www/client/dist/');
-handleStaticRoute('piyomaru.png', 'static/imgs/');
+app.get('/', renderMain);
 
 // respond with "hello world" when a GET request is made to the homepage
 app.get('/words', (req, res) => {
