@@ -90,7 +90,7 @@ app.get('/lucky/:word', (req, res) => {
   renderMain(req, res, req.params.word.trim());
 });
 
-app.get('/', renderMain);
+app.get('/', (req, res) => renderMain(req, res));
 
 // respond with "hello world" when a GET request is made to the homepage
 app.get('/words', (req, res) => {
